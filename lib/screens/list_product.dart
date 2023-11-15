@@ -14,15 +14,18 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
 Future<List<Product>> fetchProduct() async {
     // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
+    print("test");
     var url = Uri.parse(
-        'http://http://10.0.2.2/json/');
+        'http://127.0.0.1:8000/json/');
     var response = await http.get(
         url,
         headers: {"Content-Type": "application/json"},
     );
+    print("atets");
 
     // melakukan decode response menjadi bentuk json
     var data = jsonDecode(utf8.decode(response.bodyBytes));
+    print(data);
 
     // melakukan konversi data json menjadi object Product
     List<Product> list_product = [];
@@ -31,6 +34,7 @@ Future<List<Product>> fetchProduct() async {
             list_product.add(Product.fromJson(d));
         }
     }
+    print(list_product);
     return list_product;
 }
 
@@ -44,6 +48,7 @@ Widget build(BuildContext context) {
         body: FutureBuilder(
             future: fetchProduct(),
             builder: (context, AsyncSnapshot snapshot) {
+              print(snapshot.data);
                 if (snapshot.data == null) {
                     return const Center(child: CircularProgressIndicator());
                 } else {
